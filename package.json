@@ -1,0 +1,45 @@
+{
+  "name": "gulp-packpas",
+  "description": "Gulp 4.0 Base Packager for Angular 1.x developments",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:nulpas/gulp-packpas.git"
+  },
+  "author": "Nul Pàs <manu@lunaeme.com> (https://github.com/nulpas)",
+  "contributors": [
+    "Luis Murciano <luis.murciano.renedo@everis.com> (https://www.linkedin.com/in/luismurciano/)"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "angular-mocks": "^1.6.10",
+    "event-stream": "^3.3.4",
+    "fancy-log": "^1.3.2",
+    "fs-extra": "^5.0.0",
+    "gulp": "^3.9.1",
+    "gulp-angular-filesort": "^1.2.1",
+    "gulp-angular-templatecache": "^2.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-eslint": "^4.0.2",
+    "gulp-flatten": "^0.4.0",
+    "gulp-htmlmin": "^4.0.0",
+    "gulp-imagemin": "^4.1.0",
+    "gulp-inject": "^4.3.2",
+    "gulp-inject-string": "^1.1.1",
+    "gulp-rev": "^8.1.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "gulp-watch": "^5.0.0",
+    "gulp-webserver": "^0.9.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.1",
+    "main-bower-files": "^2.13.1"
+  },
+  "devDependencies": {}
+}
