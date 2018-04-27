@@ -12,8 +12,7 @@
   //var $ = require('./gulpfile.tree');
 
   //# Compose absolute url to module:
-  //var urlToMainModule = require.resolve('./').split('index.js').join('');
-  var urlToMainModule = './';
+  var urlToMainModule = require.resolve('./').split('index.js').join('');
 
   fs.readdirSync(urlToMainModule + 'modules').map(function(file) {
     require(urlToMainModule + 'modules/' + file);
