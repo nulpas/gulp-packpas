@@ -8,26 +8,37 @@
   "globals": {
     "angular": false,
     "_": false,
-    "moment": false
+    "moment": false,
+    "componentHandler": false
   },
   "rules": {
+    "array-bracket-newline": [2, "consistent"],
+    "brace-style": 2,
+    "comma-spacing": 2,
+    "comma-style": [2, "last"],
+    "curly": 2,
+    "eqeqeq": 2,
+    "function-paren-newline": [2, "consistent"],
     "indent": [2, 2, {
       "SwitchCase": 1
     }],
-    "comma-style": [2, "last"],
     "max-len": [2, 120],
+    "no-bitwise": 2,
+    "no-caller": 2,
+    "no-console": [2, {
+      "allow": ["error", "warn"]
+    }],
+    "object-curly-newline": [2, { "consistent": true }],
+    "object-curly-spacing": 2,
+    "one-var": [2, "never"],
+    "semi": 2,
+    "space-before-function-paren": [2, "never"],
+    "space-in-parens": 2,
+    "strict": [2, "function"],
     "valid-jsdoc": [2, {
       "requireReturn": false,
       "requireParamDescription": false,
       "requireReturnDescription": false
-    }],
-    "no-bitwise": 2,
-    "curly": 2,
-    "eqeqeq": 2,
-    "no-caller": 2,
-    "strict": [2, "function"],
-    "no-console": [2, {
-      "allow": ["error", "warn"]
     }]
   }
 }

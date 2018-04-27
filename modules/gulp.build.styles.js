@@ -70,7 +70,7 @@
 
   /*## LIFE: Compile fonts files into dist directory */
   gulp.task('font', function() {
-    return gulp.src(bower($.files.font.all))
+    return gulp.src($.files.font.all)
       .pipe(flatten())
       .pipe(gulp.dest($.paths.dist.cssApp));
   });
@@ -88,11 +88,13 @@
   });
 
   /*# COMPILATION ################## */
+  var distTasks = ['vendor.styles', 'sass', 'font'];
+  var devTasks = ['vendor.styles:dev', 'sass:dev', 'font:dev'];
+  var devConcatTasks = ['vendor.styles:dev:concat', 'sass:dev:concat', 'font:dev:concat'];
 
   /*## LIFE: Join all building styles tasks */
-  gulp.task('build.styles', ['vendor.styles', 'sass', 'font']);
-
+  gulp.task('build.styles', gulp.parallel(distTasks));
   /*## DEVELOPMENT: Join all building styles tasks */
-  gulp.task('build.styles:dev', ['vendor.styles:dev', 'sass:dev', 'font:dev']);
-  gulp.task('build.styles:dev:concat', ['vendor.styles:dev:concat', 'sass:dev:concat', 'font:dev:concat']);
+  gulp.task('build.styles:dev', gulp.parallel(devTasks));
+  gulp.task('build.styles:dev:concat', gulp.parallel(devConcatTasks));
 })();

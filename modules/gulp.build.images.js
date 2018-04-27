@@ -50,11 +50,14 @@
   });
 
   /*# COMPILATION ################## */
+  var distTasks = ['build.optimize.images', 'build.others.images', 'build.favicon'];
+  var devTasks = ['build.all.images:dev', 'build.favicon:dev'];
+  var devConcatTasks = ['build.all.images:dev:concat', 'build.favicon:dev:concat'];
 
   /*## LIFE: Join all building images tasks */
-  gulp.task('build.images', ['build.optimize.images', 'build.others.images', 'build.favicon']);
+  gulp.task('build.images', gulp.parallel(distTasks));
   /*## DEVELOPMENT: Join all building images tasks */
-  gulp.task('build.images:dev', ['build.all.images:dev', 'build.favicon:dev']);
+  gulp.task('build.images:dev', gulp.parallel(devTasks));
   /*## DEVELOPMENT: Join all building images tasks for concat method */
-  gulp.task('build.images:dev:concat', ['build.all.images:dev:concat', 'build.favicon:dev:concat']);
+  gulp.task('build.images:dev:concat', gulp.parallel(devConcatTasks));
 })();

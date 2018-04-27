@@ -2,3 +2,5 @@
 .scannerwork
 .editorconfig
 gulpfile.js
+package-lock.json
+yarn.lock

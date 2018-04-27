@@ -3,6 +3,11 @@
 
   //# Load external modules
   var gulp = require('gulp');
+
+  /**
+   * @name fs
+   * @type {Object}
+   */
   var fs = require('fs-extra');
 
   //# Compose absolute url to module:
@@ -12,7 +17,7 @@
     require(urlToMainModule + 'modules/' + file);
   });
 
-  gulp.task('debug', ['debug:compile']);
+  gulp.task('debug', gulp.parallel('debug:compile'));
 
-  gulp.task('default', ['debug']);
+  gulp.task('default', gulp.parallel('debug'));
 })();

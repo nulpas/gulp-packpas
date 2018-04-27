@@ -3,53 +3,45 @@
 
   //# Load external modules
   var gulp = require('gulp');
+
+  /**
+   * @name fs
+   * @type {Object}
+   */
   var fs = require('fs-extra');
-  var htmlMin = require('gulp-htmlmin');
-  var $ = require('./gulpfile.tree');
+  //var $ = require('./gulpfile.tree');
 
   //# Compose absolute url to module:
-  var urlToMainModule = require.resolve('./').split('index.js').join('');
+  //var urlToMainModule = require.resolve('./').split('index.js').join('');
+  var urlToMainModule = './';
 
   fs.readdirSync(urlToMainModule + 'modules').map(function(file) {
     require(urlToMainModule + 'modules/' + file);
   });
 
-  //# SUB-TASKS ####################
-
-  //## LIFE: Compose all building tasks
-  gulp.task('build', ['build.app', 'build.styles', 'build.images']);
-  //## DEVELOPMENT: Compose all building tasks without concat and obfuscation
-  gulp.task('build:dev', ['build.app:dev', 'build.styles:dev', 'build.images:dev']);
-  //## DEVELOPMENT: Compose all building tasks without obfuscation but concat
-  gulp.task('build:dev:concat', ['build.app:dev:concat', 'build.styles:dev:concat', 'build.images:dev:concat']);
-
-  //# MIN INDEX.HTML  ####################
-
-  //## LIFE: Reduce minimum index.html file
-  gulp.task('index.min', ['inject'], function() {
-    return gulp.src($.paths.dist.index)
-      .pipe(htmlMin({
-        collapseBooleanAttributes: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        removeComments: true,
-        removeEmptyAttributes: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true
-      }))
-      .pipe(gulp.dest($.paths.dist.root));
-  });
-
   //# DEVELOP TASKS ################################################################
-  gulp.task('dist', ['clean', 'server']);
-  gulp.task('dev', ['clean:dev', 'debug:compile', 'server:dev', 'watch:dev']);
-  gulp.task('dev:concat', ['clean:dev:concat', 'debug:compile', 'server:dev:concat', 'watch:dev:concat']);
+  var distTasks = ['clean', 'build', 'inject', 'index.min', 'server'];
+  var devTasks = ['clean:dev', 'debug:watch', 'build:dev', 'inject:dev', 'server:dev', 'watch:dev'];
+  var devConcatTasks = [
+    'clean:dev:concat',
+    'debug:watch',
+    'build:dev:concat',
+    'inject:dev:concat',
+    'server:dev:concat',
+    'watch:dev:concat'
+  ];
+  gulp.task('dist', gulp.series(distTasks));
+  gulp.task('dev', gulp.series(devTasks));
+  gulp.task('dev:concat', gulp.series(devConcatTasks));
 
   //# DEPLOY TASKS #################################################################
-  gulp.task('deploy:dist', ['clean', 'index.min']);
-  gulp.task('deploy:dev', ['clean:dev', 'debug:watch', 'inject:dev']);
-  gulp.task('deploy:dev:concat', ['clean:dev:concat', 'debug:watch', 'inject:dev:concat']);
+  var depliyDistTasks = ['clean', 'build', 'inject', 'index.min'];
+  var deployDevTasks = ['clean:dev', 'debug:watch', 'build:dev', 'inject:dev'];
+  var deployDevConcatTasks = ['clean:dev:concat', 'debug:watch', 'build:dev:concat', 'inject:dev:concat'];
+  gulp.task('deploy:dist', gulp.series(depliyDistTasks));
+  gulp.task('deploy:dev', gulp.series(deployDevTasks));
+  gulp.task('deploy:dev:concat', gulp.series(deployDevConcatTasks));
 
   //# DEFAULT TASK #################################################################
-  gulp.task('default', ['dev']);
+  gulp.task('default', gulp.parallel('dev'));
 })();

@@ -86,7 +86,7 @@
 
   //## LIFE: Compile app JS into production app
   gulp.task('app', function() {
-    return es.merge(gulp.src($.source.app.javascript.load), getTplCache())
+    return es.merge(gulp.src($.source.app.javascript.load, {allowEmpty: true}), getTplCache())
       .pipe(concat($.files.javascript.app))
       .pipe(uglify())
       .pipe(rev())
@@ -94,13 +94,13 @@
   });
   //## DEVELOPMENT: Compile app JS into development app without obfuscation and concat
   gulp.task('app:dev', function() {
-    return es.merge(gulp.src($.source.app.javascript.load), getTplCacheDev())
+    return es.merge(gulp.src($.source.app.javascript.load, {allowEmpty: true}), getTplCacheDev())
       .pipe(flatten())
       .pipe(gulp.dest($.paths.dev.jsApp));
   });
   //## DEVELOPMENT: Compile app JS into development app without obfuscation but concat
   gulp.task('app:dev:concat', function() {
-    return es.merge(gulp.src($.source.app.javascript.load), getTplCacheDev())
+    return es.merge(gulp.src($.source.app.javascript.load, {allowEmpty: true}), getTplCacheDev())
       .pipe(sourceMaps.init())
       .pipe(concat($.files.javascript.app))
       .pipe(sourceMaps.write('.'))
@@ -143,12 +143,31 @@
       .pipe(gulp.dest($.paths.devConcat.root));
   });
 
-  //# COMPILATION ####################
+  //# MIN INDEX.HTML  ####################
 
-  //## LIFE: Join all building tasks
-  gulp.task('build.app', ['vendor', 'app', 'json', 'index']);
+  //## LIFE: Reduce minimum index.html file
+  gulp.task('index.min', function() {
+    return gulp.src($.paths.dist.index)
+      .pipe(htmlMin({
+        collapseBooleanAttributes: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        removeComments: true,
+        removeEmptyAttributes: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true
+      }))
+      .pipe(gulp.dest($.paths.dist.root));
+  });
 
-  //## DEVELOPMENT: Join all building tasks
-  gulp.task('build.app:dev', ['vendor:dev', 'app:dev', 'json:dev', 'index:dev']);
-  gulp.task('build.app:dev:concat', ['vendor:dev:concat', 'app:dev:concat', 'json:dev:concat', 'index:dev:concat']);
+  /*# COMPILATION ################## */
+  var distTasks = ['vendor', 'app', 'json', 'index'];
+  var devTasks = ['vendor:dev', 'app:dev', 'json:dev', 'index:dev'];
+  var devConcatTasks = ['vendor:dev:concat', 'app:dev:concat', 'json:dev:concat', 'index:dev:concat'];
+
+  /*## LIFE: Join all building app tasks */
+  gulp.task('build.app', gulp.parallel(distTasks));
+  /*## DEVELOPMENT: Join all building app tasks */
+  gulp.task('build.app:dev', gulp.parallel(devTasks));
+  gulp.task('build.app:dev:concat', gulp.parallel(devConcatTasks));
 })();
